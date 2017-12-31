@@ -1,12 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.optimize as opt
-from plotData import *
 
-import costFunction as cf
-import plotDecisionBoundary as pdb
-import predict as predict
-from sigmoid import *
+from plotData import plot_data
+from costFunction import cost_function
+from plotDecisionBoundary import plot_decision_boundary
+from predict import predict
+from sigmoid import sigmoid
 
 
 plt.ion()
@@ -21,7 +21,6 @@ y = data[:, 2]
 print('Plotting Data with + indicating (y = 1) examples and o indicating (y = 0) examples.')
 
 plot_data(X, y)
-
 plt.axis([30, 100, 30, 100])
 plt.legend(['Admitted', 'Not admitted'], loc=1)
 plt.xlabel('Exam 1 score')
@@ -42,11 +41,10 @@ input('Program paused. Press ENTER to continue')
 X = np.c_[np.ones(m), X]
 
 # Initialize fitting parameters
-initial_theta = np.zeros(n + 1)
+initial_theta = np.zeros(n+1)
 
 # Compute and display initial cost and gradient
-cost, grad = cf.cost_function(initial_theta, X, y)
-
+cost, grad = cost_function(initial_theta, X, y)
 np.set_printoptions(formatter={'float': '{: 0.4f}\n'.format})
 
 print('Cost at initial theta (zeros): {:0.3f}'.format(cost))
@@ -56,7 +54,7 @@ print('Expected gradients (approx): \n-0.1000\n-12.0092\n-11.2628')
 
 # Compute and display cost and gradient with non-zero theta
 test_theta = np.array([-24, 0.2, 0.2])
-cost, grad = cf.cost_function(test_theta, X, y)
+cost, grad = cost_function(test_theta, X, y)
 
 print('Cost at test theta (zeros): {}'.format(cost))
 print('Expected cost (approx): 0.218')
@@ -72,11 +70,11 @@ input('Program paused. Press ENTER to continue')
 
 
 def cost_func(t):
-    return cf.cost_function(t, X, y)[0]
+    return cost_function(t, X, y)[0]
 
 
 def grad_func(t):
-    return cf.cost_function(t, X, y)[1]
+    return cost_function(t, X, y)[1]
 
 
 # Run fmin_bfgs to obtain the optimal theta
@@ -88,8 +86,7 @@ print('theta: \n{}'.format(theta))
 print('Expected Theta (approx): \n-25.161\n0.206\n0.201')
 
 # Plot boundary
-pdb.plot_decision_boundary(theta, X, y)
-
+plot_decision_boundary(theta, X, y)
 plt.xlabel('Exam 1 score')
 plt.ylabel('Exam 2 score')
 
@@ -108,15 +105,15 @@ input('Program paused. Press ENTER to continue')
 
 # Predict probability for a student with score 45 on exam 1
 # and score 85 on exam 2
-
 prob = sigmoid(np.array([1, 45, 85]).dot(theta))
+
 print('For a student with scores 45 and 85, we predict an admission probability of {:0.4f}'.format(prob))
 print('Expected value : 0.775 +/- 0.002')
 
 # Compute the accuracy on our training set
-p = predict.predict(theta, X)
+p = predict(theta, X)
 
-print('Train accuracy: {}'.format(np.mean(y == p) * 100))
+print('Train accuracy: {}'.format(np.mean(y==p)*100))
 print('Expected accuracy (approx): 89.0')
 
 input('ex2 Finished. Press ENTER to exit')

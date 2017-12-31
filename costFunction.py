@@ -1,6 +1,6 @@
 import numpy as np
 
-from sigmoid import *
+from sigmoid import sigmoid
 
 
 def cost_function(theta, X, y):
@@ -16,12 +16,9 @@ def cost_function(theta, X, y):
     # ===================== Your Code Here =====================
     # Instructions : Compute the cost of a particular choice of theta
     #                You should set cost and grad correctly.
-    #
-
     hypothesis = sigmoid(np.dot(X, theta))
-
-    cost = np.sum(-y * np.log(hypothesis) - (1 - y) * np.log(1 - hypothesis)) / m
-    grad = np.dot(X.T, (hypothesis - y)) / m
+    cost = np.sum(-y*np.log(hypothesis)-(1-y)*np.log(1-hypothesis))/m
+    grad = np.dot(X.T, (hypothesis-y))/m
 
     # ===========================================================
 

@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from plotData import *
-from mapFeature import *
+from plotData import plot_data
+from mapFeature import map_feature
 
 
 def plot_decision_boundary(theta, X, y):
@@ -13,27 +13,23 @@ def plot_decision_boundary(theta, X, y):
 
     if X.shape[1] <= 3:
         # Only need two points to define a line, so choose two endpoints
-        plot_x = np.array([np.min(X[:, 1]) - 2, np.max(X[:, 1]) + 2])
+        plot_x = np.array([np.min(X[:, 1])-2, np.max(X[:, 1])+2])
 
         # Calculate the decision boundary line
-        plot_y = (-1/theta[2]) * (theta[1]*plot_x + theta[0])
-
+        plot_y = (-1/theta[2])*(theta[1]*plot_x+theta[0])
         plt.plot(plot_x, plot_y)
-
         plt.legend(['Decision Boundary', 'Admitted', 'Not admitted'], loc=1)
         plt.axis([30, 100, 30, 100])
     else:
         # Here is the grid range
         u = np.linspace(-1, 1.5, 50)
         v = np.linspace(-1, 1.5, 50)
-
         z = np.zeros((u.size, v.size))
 
         # Evaluate z = theta*x over the grid
         for i in range(0, u.size):
             for j in range(0, v.size):
                 z[i, j] = np.dot(map_feature(u[i], v[j]), theta)
-
         z = z.T
 
         # Plot z = 0
